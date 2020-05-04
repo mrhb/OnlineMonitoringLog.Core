@@ -1,41 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Timers;
+using OnlineMonitoringLog.Core1;
 
 namespace RtuModbusTcpLib
 {
     class ModbusRtuOverTcp
     {
+        Socket GlobalSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 
-
-        public connection[] connectionList;
-        int _num;
+        public List<Unit> Units;
+        int _num=10;
 
         public Socket accept_sockt;
         uint timoutValue ;//3*100ms =300ms
-        bool sendBusy;
        // public int newData;
 
         Timer timer_timout;
-        Socket GlobalSocket;
+
 //********************************************************************************************************
-        public ModbusRtuOverTcp(int NumOfDevice)
+        public ModbusRtuOverTcp(List<Unit> unitList)
         {
-            _num = NumOfDevice;
-            connectionList = new connection[_num];
-            for (int i = 0; i < _num; i++)
-            {
-
-                connectionList[i] = new connection();
-
-            }
-
+          
+            Units = unitList;
+          
         }
 
         public void Connection_Start(int port, uint Timout)
@@ -55,18 +47,18 @@ namespace RtuModbusTcpLib
             bool status = false;
             try {
                 IPEndPoint lan_ip = new IPEndPoint(IPAddress.Any, port);
-                Socket lan_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                lan_socket.Bind(lan_ip);
-                lan_socket.Listen(_num);
+                
+                GlobalSocket.Bind(lan_ip);
+                GlobalSocket.Listen(_num);
 
                 AsyncCallback callBackMethod = new AsyncCallback(Accept_Callback);
-                IAsyncResult arc = lan_socket.BeginAccept(Accept_Callback, lan_socket);
+                IAsyncResult arc = GlobalSocket.BeginAccept(Accept_Callback, GlobalSocket);
                 accept_sockt = (Socket)arc.AsyncState;//this socket keep information about socket is listen to port
                 status = true;
             }
-            catch
+            catch(Exception  cx)
             {
-
+                Console.Write(cx.ToString());
             }
             return status;
 
@@ -78,8 +70,8 @@ namespace RtuModbusTcpLib
             for (int i = 0; i < _num; i++)
             {
 
-                if (connectionList[i].Sockete.Connected == true)
-                { try { connectionList[i].Sockete.Close(); } catch { } }
+                if (Units[i].Sockete.Connected == true)
+                { try { Units[i].Sockete.Close(); } catch { } }
             }
             accept_sockt.Close();
         }
@@ -98,15 +90,15 @@ namespace RtuModbusTcpLib
                 {
 
 
-                    if (ip1.Equals(connectionList[i].ip))//this socket empty
+                    if (ip1.Equals(Units[i].ip))//this socket empty
                     {
-                        connectionList[i].Sockete = accept;
+                        Units[i].Sockete = accept;
                         // eip2 = (IPEndPoint)connectionList[i].Sockete.RemoteEndPoint;
                         // connectionList[i].ip = eip2.Address;
 
                         AsyncCallback ReceiveMethod = new AsyncCallback(ReciveData_callback);
-                        connectionList[i].Sockete.BeginReceive(connectionList[i].buffer_read, 0, connectionList[i].buffer_read.Length,
-                                                         SocketFlags.None, ReciveData_callback, connectionList[i]);
+                        Units[i].Sockete.BeginReceive(Units[i].buffer_read, 0, Units[i].buffer_read.Length,
+                                                         SocketFlags.None, ReciveData_callback, Units[i]);
 
                         break;
                     }
@@ -116,7 +108,7 @@ namespace RtuModbusTcpLib
                 lan_socket.Listen(_num);
                 AsyncCallback callBackMethod = new AsyncCallback(Accept_Callback);
 
-                IAsyncResult arc = lan_socket.BeginAccept(Accept_Callback, lan_socket);
+                IAsyncResult arc = lan_socket.BeginAccept(callBackMethod, lan_socket);
                 accept_sockt = (Socket)ar.AsyncState;
             }
             //catch
@@ -127,24 +119,23 @@ namespace RtuModbusTcpLib
 
         private void ReciveData_callback(IAsyncResult ar)
         {
-            connection connection1 = (connection)ar.AsyncState;
-            Socket sokect1 = (Socket)connection1.Sockete;
-
-
+            Unit _unit = (Unit)ar.AsyncState;
+            Socket sokect1 = (Socket)_unit.Sockete;
+            
             try
             {
-                connection1.BufferReadNum = sokect1.EndReceive(ar);
+                _unit.BufferReadNum = sokect1.EndReceive(ar);
 
-                if (connection1.BufferReadNum > 0)
+                if (_unit.BufferReadNum > 0)
                 {
                     //******* Data recive
                     //*******Data saved in ConnectionList.Buffer_Read 
-                    ReciveData(connection1, false);
+                    ReciveData(_unit, false);
 
                     //************************************************************             
                     AsyncCallback ReceiveMethod = new AsyncCallback(ReciveData_callback);
-                    connection1.Sockete.BeginReceive(connection1.buffer_read, 0, _num,
-                                                 SocketFlags.None, ReciveData_callback, connection1);
+                    _unit.Sockete.BeginReceive(_unit.buffer_read, 0, _num,
+                                                 SocketFlags.None, ReciveData_callback, _unit);
 
                 }
                 else// sockt disconnect 
@@ -161,12 +152,12 @@ namespace RtuModbusTcpLib
         public bool SendData(uint device, byte[] data, int size)
         {
             bool status = false;
+            var unit = Units.Where(p => p.Id == device).FirstOrDefault();
 
-
-            if (connectionList[device].Sockete.Connected)
+            if (unit.Sockete.Connected)
             {
-                connectionList[device].Sockete.BeginSend(data, 0, size,
-                        SocketFlags.None, new AsyncCallback(SendData_Callback), connectionList[device].Sockete);
+                unit.Sockete.BeginSend(data, 0, size,
+                        SocketFlags.None, new AsyncCallback(SendData_Callback),unit.Sockete);
                 status = true;
             }
 
@@ -188,23 +179,23 @@ namespace RtuModbusTcpLib
         private void handeler_timout(Object source, ElapsedEventArgs e)
         {
 
-            for (uint i = 0; i <_num; i++)
+            foreach (var u in Units)
             {
-                if (connectionList[i].timout.enable == true)
+                if (u.timout.enable == true)
                 {
-                    if (connectionList[i].timout.Cnt >= timoutValue)
+                    if (u.timout.Cnt >= timoutValue)
                     {
-                        ReciveData(connectionList[i],true);
-                        connectionList[i].timout.enable = false;
-                        connectionList[i].timout.TimOut = true;
+                        ReciveData(u,true);
+                        u.timout.enable = false;
+                        u.timout.TimOut = true;
                     }
-                    connectionList[i].timout.Cnt++;
+                    u.timout.Cnt++;
                 }
             }
 
         }
 
-        public static void ReciveData(connection connection1, bool TimedOut)
+        public static void ReciveData(Unit connection1, bool TimedOut)
         {
             if (!TimedOut)
             {
@@ -238,7 +229,9 @@ namespace RtuModbusTcpLib
             int i = 0;
             byte[] data = new byte[8 + lengh];
 
-            data[i] = connectionList[device].Id; i++;
+            var unit = Units.Where(p => p.Id == device).FirstOrDefault();
+
+            data[i] = unit.Id; i++;
 
             data[i] = 16; i++;
 
@@ -264,8 +257,8 @@ namespace RtuModbusTcpLib
 
             if (status)
             {
-                connectionList[device].lastFunction = 16;
-                connectionList[device].timout.TimOutEnable();
+                unit.lastFunction = 16;
+                unit.timout.TimOutEnable();
             }
             return status;
         }
@@ -275,8 +268,10 @@ namespace RtuModbusTcpLib
             int i = 0;
             byte[] data = new byte[8];
             bool status=false;
+            var unit = Units.Where(p => p.Id == device).FirstOrDefault();
 
-            data[i] = connectionList[device].Id; i++;
+
+             data[i] = unit.Id; i++;
 
             data[i] = 3; i++;
 
@@ -294,8 +289,8 @@ namespace RtuModbusTcpLib
             status = SendData(device, data, i);
             if (status)
             {
-                connectionList[device].lastFunction = 3;
-                connectionList[device].timout.TimOutEnable();
+                unit.lastFunction = 3;
+                unit.timout.TimOutEnable();
             }
 
             return status;
@@ -326,38 +321,7 @@ namespace RtuModbusTcpLib
         }
 
 
-        //*******************************************************************************************
-        public class connection
-        {
-            public class classTimout
-            {
-                public void TimOutEnable()
-                {
-                    Cnt = 0;
-                    TimOut = false;
-                    enable = true;
-                }
-                public void TimOutDisable()
-                {
-                    enable = false;
-                }
-                public bool enable;
-                public uint Cnt;
-                public bool TimOut;
-            }
-
-            public classTimout timout = new classTimout();
-
-            public byte Id;
-            public IPAddress ip;
-            public byte lastFunction;
-            public Socket Sockete = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            public int BufferReadNum = 0;
-            public byte[] buffer_read = new byte[2048];
-            public byte[] buffer_write = new byte[250];
-
-        }
+    
 
 
 

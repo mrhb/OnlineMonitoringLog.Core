@@ -4,45 +4,51 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System;
+using RtuModbusTcpLib;
+using System.Net;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
-namespace OnlineMonitoringLog.Core
+namespace OnlineMonitoringLog.Core1
 {
+
     public class Station : INotifyPropertyChanged
     {
-        private string _name;
+        const string _name="CharmShahr";
         private ObservableCollection<Unit> _units = new ObservableCollection<Unit>();
 
+       
         public ObservableCollection<Unit> Units
         { get { return _units; }
             set
             {
                 _units = value;
-                OnPropertyChanged("Units");
+                NotifyPropertyChanged("Units");
             }
         }
 
-        private void OnPropertyChanged(string info)
+
+
+        public Station( )
         {
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(info));
+           
         }
-              
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public void Start(List<Unit> UnitList)
+        {    
+          
 
-
-        public void AddUint()
-        {
-            _units.Add(new Unit("Mohammad", "Hajjar", "Seattle"));
         }
-        public Station()
+
+     
+       public event PropertyChangedEventHandler PropertyChanged;
+        // This method is called by the Set accessor of each property.  
+        // The CallerMemberName attribute that is applied to the optional propertyName  
+        // parameter causes the property name of the caller to be substituted as an argument.  
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-         }
-
-      
-
-        public override string ToString() => _name;
-
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
 
 
