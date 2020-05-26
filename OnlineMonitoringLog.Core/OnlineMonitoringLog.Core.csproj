@@ -31,7 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,10 +50,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ModbusRtuOverTcp.cs" />
+    <Compile Include="DomainModel\AlarmableObj.cs" />
+    <Compile Include="DomainModel\CommonAlarms\BoleanThreshold.cs" />
+    <Compile Include="DomainModel\CommonAlarms\BooleanChangeEvent.cs" />
+    <Compile Include="DomainModel\CommonAlarms\IntChangeEvent.cs" />
+    <Compile Include="DomainModel\CommonAlarms\IntThreshold.cs" />
+    <Compile Include="DomainModel\Entities\AlarmableContext.cs" />
+    <Compile Include="DomainModel\Entities\OccCultureInfo.cs" />
+    <Compile Include="DomainModel\Entities\OccurenceLog.cs" />
+    <Compile Include="DomainModel\Entities\RegisteredOccConfig.cs" />
+    <Compile Include="DomainModel\Entities\RegisteredOccConfig1.cs" />
+    <Compile Include="DomainModel\generics\Alarm.cs" />
+    <Compile Include="DomainModel\generics\Event.cs" />
+    <Compile Include="DomainModel\generics\IOccurence.cs" />
+    <Compile Include="DomainModel\generics\IOccurenceConfige.cs" />
+    <Compile Include="DomainModel\generics\OccSerialization.cs" />
+    <Compile Include="DomainModel\generics\Occurence.cs" />
+    <Compile Include="DomainModel\generics\OccurenceConfige.cs" />
+    <Compile Include="DomainModel\IAlarmableObj.cs" />
+    <Compile Include="DomainModel\repository\AlarmRepository.cs" />
+    <Compile Include="DomainModel\repository\centralConfig.cs" />
+    <Compile Include="DomainModel\repository\CentralConfigViewModel.cs" />
+    <Compile Include="DomainModel\repository\IAlarmRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Station.cs" />
-    <Compile Include="Unit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="DomainModel\AlarmBaseClassDiagram.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DomainModel\Core\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
