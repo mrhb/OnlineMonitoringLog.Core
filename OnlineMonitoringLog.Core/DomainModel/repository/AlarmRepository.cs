@@ -14,12 +14,12 @@ namespace AlarmBase.DomainModel.repository
 {
     public class AlarmRepository : IAlarmRepository
     {
-        int _delayTime = 5000;
+        int _delayTime =5000;
         public CancellationTokenSource saveTaskTokenSource = new CancellationTokenSource();
         public CentralConfigViewModel ConfigViewModel;
         Task<int> saveTask;
-        AlarmableContext _ConfigContex;
-        AlarmableContext _LogContex;
+        protected  AlarmableContext _ConfigContex;
+        protected AlarmableContext _LogContex;
         cultureType _cultureType = cultureType.en_US;// cultureType.Default;
 
         public AlarmRepository(AlarmableContext Contex)
