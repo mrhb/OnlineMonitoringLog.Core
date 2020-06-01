@@ -1,71 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
   <Class Name="AlarmBase.DomainModel.AlarmableObj&lt;StateType&gt;" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="12" Y="0.5" Width="1.5" />
+    <Position X="11.25" Y="1.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Class Name="AlarmBase.DomainModel.AlarmableObj&lt;StateType&gt;.StatePropertyChangedEventArgs" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>DomainModel\AlarmableObj.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAgQCQAACAAAACRIgAAAAAEgAAAQAAAAAAABAAAAAA=</HashCode>
-      <FileName>DomainModel\AlarmableObj.cs</FileName>
+      <FileName>AlarmBase\AlarmableObj.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="AlarmBase.DomainModel.BoleanTreshold" Collapsed="true">
+  <Class Name="AlarmBase.DomainModel.BoleanThreshold" Collapsed="true">
     <Position X="0.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAgAAAAAACAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DomainModel\CommonAlarms\BoleanTreshold.cs</FileName>
+      <FileName>AlarmBase\CommonAlarms\BoleanThreshold.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AlarmBase.DomainModel.IntTreshold" Collapsed="true">
+  <Class Name="AlarmBase.DomainModel.IntThreshold" Collapsed="true">
     <Position X="3" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAACAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DomainModel\CommonAlarms\IntTreshold.cs</FileName>
+      <FileName>AlarmBase\CommonAlarms\IntThreshold.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AlarmBase.DomainModel.repository.centralConfig" Collapsed="true">
-    <Position X="9.75" Y="1.75" Width="1.5" />
+    <Position X="9" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DomainModel\repository\centralConfig.cs</FileName>
+      <FileName>AlarmBase\repository\centralConfig.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AlarmBase.DomainModel.generics.Alarm&lt;StateType&gt;" Collapsed="true">
     <Position X="2" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DomainModel\generics\Alarm.cs</FileName>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AlarmBase\generics\Alarm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AlarmBase.DomainModel.generics.Event&lt;StateType&gt;" Collapsed="true">
     <Position X="7" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DomainModel\generics\Event.cs</FileName>
+      <HashCode>AAAAAAgAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AlarmBase\generics\Event.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AlarmBase.DomainModel.generics.Occurence&lt;StateType&gt;" Collapsed="true">
     <Position X="4.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAgAIgAAAiAAgAAgAAAEAAAQEAAUAAAgJAABAAQ=</HashCode>
-      <FileName>DomainModel\generics\Occurence.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="AlarmBase.DomainModel.generics.OccurenceConfige" Collapsed="true">
-    <Position X="7" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AgQAAIIAAgEAAIABAhQAAAAIgZDAQAAAAJABAAGAACA=</HashCode>
-      <FileName>DomainModel\generics\OccurenceConfige.cs</FileName>
+      <HashCode>AAAIAAgAIgBAAiAAgAAgAAAEAAAQEAAUAAAgJAABAAQ=</HashCode>
+      <FileName>AlarmBase\generics\Occurence.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -73,36 +58,36 @@
     <Position X="5.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DomainModel\CommonAlarms\BooleanChangeEvent.cs</FileName>
+      <FileName>AlarmBase\CommonAlarms\BooleanChangeEvent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AlarmBase.DomainModel.IntChangeEvent" Collapsed="true">
     <Position X="8.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DomainModel\CommonAlarms\IntChangeEvent.cs</FileName>
+      <HashCode>AAAAAAgAAABAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AlarmBase\CommonAlarms\IntChangeEvent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AlarmBase.DomainModel.repository.CentralConfigViewModel" Collapsed="true">
-    <Position X="12" Y="2" Width="2.25" />
+    <Position X="10.75" Y="2.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAIAAIAAAAAAAAAAgAABAAAAAAAwADAAAAE=</HashCode>
-      <FileName>DomainModel\repository\CentralConfigViewModel.cs</FileName>
+      <FileName>AlarmBase\repository\CentralConfigViewModel.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.474" />
   </Class>
   <Interface Name="AlarmBase.DomainModel.generics.IOccurence" Collapsed="true">
     <Position X="14.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAgAAAgAAAAAAAAAEAAAAAAAQAAAAJAABAAA=</HashCode>
-      <FileName>DomainModel\generics\IOccurence.cs</FileName>
+      <HashCode>AAAIAAAAAgBAAgAAAAAAAAAEAAAAAAAQAAAAJAABAAA=</HashCode>
+      <FileName>AlarmBase\generics\IOccurence.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="AlarmBase.DomainModel.generics.IOccurenceConfige" Collapsed="true">
     <Position X="14.75" Y="0.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAAEAAAABAhQAAAAAgJDAQAAAAAABAAGAACA=</HashCode>
-      <FileName>DomainModel\generics\IOccurenceConfige.cs</FileName>
+      <HashCode>AAAAAIAAAAEAgAABAhQAAAAAgJCAQAAAAAABAAGAACA=</HashCode>
+      <FileName>AlarmBase\generics\IOccurenceConfige.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

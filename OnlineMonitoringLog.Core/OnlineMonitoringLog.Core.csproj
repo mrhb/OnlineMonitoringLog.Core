@@ -50,31 +50,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainModel\AlarmableObj.cs" />
-    <Compile Include="DomainModel\CommonAlarms\BoleanThreshold.cs" />
-    <Compile Include="DomainModel\CommonAlarms\BooleanChangeEvent.cs" />
-    <Compile Include="DomainModel\CommonAlarms\IntChangeEvent.cs" />
-    <Compile Include="DomainModel\CommonAlarms\IntThreshold.cs" />
-    <Compile Include="DomainModel\Entities\AlarmableContext.cs" />
-    <Compile Include="DomainModel\Entities\OccCultureInfo.cs" />
-    <Compile Include="DomainModel\Entities\OccurenceLog.cs" />
-    <Compile Include="DomainModel\Entities\RegisteredOccConfig.cs" />
-    <Compile Include="DomainModel\Entities\RegisteredOccConfig1.cs" />
-    <Compile Include="DomainModel\generics\Alarm.cs" />
-    <Compile Include="DomainModel\generics\Event.cs" />
-    <Compile Include="DomainModel\generics\IOccurence.cs" />
-    <Compile Include="DomainModel\generics\IOccurenceConfige.cs" />
-    <Compile Include="DomainModel\generics\OccSerialization.cs" />
-    <Compile Include="DomainModel\generics\Occurence.cs" />
-    <Compile Include="DomainModel\generics\OccurenceConfige.cs" />
-    <Compile Include="DomainModel\IAlarmableObj.cs" />
-    <Compile Include="DomainModel\repository\AlarmRepository.cs" />
-    <Compile Include="DomainModel\repository\centralConfig.cs" />
-    <Compile Include="DomainModel\repository\CentralConfigViewModel.cs" />
-    <Compile Include="DomainModel\repository\IAlarmRepository.cs" />
-    <Compile Include="Loggable\ILoggRepository.cs" />
-    <Compile Include="Loggable\LoggableObj.cs" />
-    <Compile Include="Loggable\LoggRepositry.cs" />
+    <Compile Include="AlarmBase\AlarmableObj.cs" />
+    <Compile Include="AlarmBase\CommonAlarms\BoleanThreshold.cs" />
+    <Compile Include="AlarmBase\CommonAlarms\BooleanChangeEvent.cs" />
+    <Compile Include="AlarmBase\CommonAlarms\IntChangeEvent.cs" />
+    <Compile Include="AlarmBase\CommonAlarms\IntThreshold.cs" />
+    <Compile Include="AlarmBase\Entities\AlarmableContext.cs" />
+    <Compile Include="AlarmBase\Entities\OccCultureInfo.cs" />
+    <Compile Include="AlarmBase\Entities\OccurenceLog.cs" />
+    <Compile Include="AlarmBase\Entities\RegisteredOccConfig.cs" />
+    <Compile Include="AlarmBase\Entities\RegisteredOccConfig1.cs" />
+    <Compile Include="AlarmBase\Generics\Alarm.cs" />
+    <Compile Include="AlarmBase\Generics\Event.cs" />
+    <Compile Include="AlarmBase\Generics\IOccurence.cs" />
+    <Compile Include="AlarmBase\Generics\IOccurenceConfige.cs" />
+    <Compile Include="AlarmBase\Generics\OccSerialization.cs" />
+    <Compile Include="AlarmBase\Generics\Occurence.cs" />
+    <Compile Include="AlarmBase\Generics\OccurenceConfige.cs" />
+    <Compile Include="AlarmBase\IAlarmableObj.cs" />
+    <Compile Include="AlarmBase\Repository\AlarmRepository.cs" />
+    <Compile Include="AlarmBase\Repository\centralConfig.cs" />
+    <Compile Include="AlarmBase\Repository\CentralConfigViewModel.cs" />
+    <Compile Include="AlarmBase\Repository\IAlarmRepository.cs" />
+    <Compile Include="Logger\Repository\ILoggRepository.cs" />
+    <Compile Include="Logger\Repository\LoggableObj.cs" />
+    <Compile Include="Logger\Repository\LoggRepositry.cs" />
     <Compile Include="Logger\Entities\MonitoringDbContext.cs" />
     <Compile Include="Logger\Entities\RegisteredVaraiableConfig.cs" />
     <Compile Include="Logger\Entities\UnitEntity.cs" />
@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DomainModel\AlarmBaseClassDiagram.cd" />
+    <None Include="AlarmBase\AlarmBaseClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
