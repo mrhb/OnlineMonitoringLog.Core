@@ -1,4 +1,5 @@
-﻿using AlarmBase.DomainModel.Entities;
+﻿
+using AlarmBase.DomainModel.Entities;
 using AlarmBase.DomainModel.generics;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,12 @@ namespace AlarmBase.DomainModel.repository
 {
     public class AlarmRepository : IAlarmRepository
     {
-        int _delayTime =5000;
+        int _delayTime = 500;
         public CancellationTokenSource saveTaskTokenSource = new CancellationTokenSource();
         public CentralConfigViewModel ConfigViewModel;
         Task<int> saveTask;
-        protected  AlarmableContext _ConfigContex;
-        protected AlarmableContext _LogContex;
+        AlarmableContext _ConfigContex;
+        AlarmableContext _LogContex;
         cultureType _cultureType = cultureType.en_US;// cultureType.Default;
 
         public AlarmRepository(AlarmableContext Contex)
@@ -92,7 +93,7 @@ namespace AlarmBase.DomainModel.repository
         public RegisteredOccConfig ReadConfigInfo(RegisteredOccConfig Defaultconfig)
         {
             RegisteredOccConfig OccConfig = _ConfigContex.occConfig
-                .Where(p => p.Fk_AlarmableObjId == Defaultconfig.Fk_AlarmableObjId && 
+                .Where(p => p.Fk_AlarmableObjId == Defaultconfig.Fk_AlarmableObjId &&
                 p.OccKindName == Defaultconfig.OccKindName)
                 .Select(a => a).FirstOrDefault();
             if (OccConfig == null)
@@ -105,9 +106,9 @@ namespace AlarmBase.DomainModel.repository
         }
         public RegisteredOccConfig ReadConfigInfo(IOccurence occ)
         {
-            var typ= occ.GetType().ToString();
+            var typ = occ.GetType().ToString();
             RegisteredOccConfig OccConfig = _ConfigContex.occConfig
-                .Where(p => p.Fk_AlarmableObjId == occ.ObjId && p.OccKindName ==typ)
+                .Where(p => p.Fk_AlarmableObjId == occ.ObjId && p.OccKindName == typ)
                 .Select(a => a).FirstOrDefault();
 
             if (OccConfig == null)
@@ -144,7 +145,7 @@ namespace AlarmBase.DomainModel.repository
                 var NewOccConfig = new OccCultureInfo()
                 {
                     FK_occConfigId = occ.ConfigId,
-                    Template=occ.DefaultMessage,
+                    Template = occ.DefaultMessage,
                     Culture = _cultureType.Value
                     //SerializedSetPoint = occ.SetPoint,
                     //OccKindName = typ,
@@ -175,7 +176,7 @@ namespace AlarmBase.DomainModel.repository
 
             Int32 res = 0;
             await Task.Delay(occ.delayTime, occ.Token); //OnDelay and Off Delay waiting
-            if (saveTask == null ? false : saveTask.IsCompleted)
+            if (saveTask == null ? false : (saveTask.Status==TaskStatus.Running))
             {
                 saveTask?.Wait(); // wait to complete saving
             }
@@ -245,7 +246,8 @@ namespace AlarmBase.DomainModel.repository
                 state = occ.State,
                 ClearTime = occ.State == AlarmState.set ? (DateTime?)null : DateTime.Now,
                 SetTime = DateTime.Now,
-                AlarmMessage = occ.Message
+                AlarmMessage = occ.Message,
+                SetValuesAsJson=occ.SetValue
             };
 
             try
@@ -260,6 +262,7 @@ namespace AlarmBase.DomainModel.repository
 
             return res;
         }
+       
         public int AckOccerence(List<OccurenceLog> AckOccs, string user, string comment)
         {
 
@@ -302,6 +305,15 @@ namespace AlarmBase.DomainModel.repository
                 try
                 {
                     res = await _LogContex.SaveChangesAsync();
+                }
+                catch (Exception c)
+
+                {
+                    Console.Write("Error At:SaveOcclogChangesAsync:" + c.ToString() + "\n");
+                }
+
+                try
+                {
                     foreach (var cng in original)
                     {
                         if ((cng.Entity.GetType() == typeof(OccurenceLog)))
@@ -316,7 +328,7 @@ namespace AlarmBase.DomainModel.repository
                 catch (Exception c)
 
                 {
-                    Console.Write("Error At:SaveOcclogChangesAsync:" + c.ToString() + "\n");
+                    Console.Write("Error At: updating Entities:" + c.ToString() + "\n");
                 }
 
 

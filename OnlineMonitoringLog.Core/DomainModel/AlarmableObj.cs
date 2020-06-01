@@ -14,7 +14,7 @@ namespace AlarmBase.DomainModel
     public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj
     {
 
-        IAlarmRepository _Repo;
+         protected IAlarmRepository _Repo;
         public event   PropertyChangedEventHandler PropertyChanged;
         IwnTagType _ObjId { get; set; }
         StateType _CurrentState { get; set; }
@@ -94,7 +94,7 @@ namespace AlarmBase.DomainModel
          await  checkStateAsync(((StatePropertyChangedEventArgs)e)._newState, ((StatePropertyChangedEventArgs)e)._prestate);
         }
         public abstract List<Occurence<StateType>> ObjOccurences();
-        async Task<Int32> checkStateAsync(StateType newState, StateType preState)
+        public virtual async Task<Int32> checkStateAsync(StateType newState, StateType preState)
         {
 
             Int32 res = 0;
@@ -109,9 +109,7 @@ namespace AlarmBase.DomainModel
                     try
                     {
                         occ.tokenSource?.Cancel();
-                        occ.tokenSource = new System.Threading.CancellationTokenSource();
-                       
-                      
+                        occ.tokenSource = new System.Threading.CancellationTokenSource();                      
 
                         res = await _Repo.LogOccerence(occ);//LogOccerence(occ.OccConfig, occ.state, msg, delay, occ.tokenSource.Token);
                     }

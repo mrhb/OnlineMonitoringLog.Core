@@ -72,6 +72,17 @@
     <Compile Include="DomainModel\repository\centralConfig.cs" />
     <Compile Include="DomainModel\repository\CentralConfigViewModel.cs" />
     <Compile Include="DomainModel\repository\IAlarmRepository.cs" />
+    <Compile Include="Loggable\ILoggRepository.cs" />
+    <Compile Include="Loggable\LoggableObj.cs" />
+    <Compile Include="Loggable\LoggRepositry.cs" />
+    <Compile Include="Logger\Entities\MonitoringDbContext.cs" />
+    <Compile Include="Logger\Entities\RegisteredVaraiableConfig.cs" />
+    <Compile Include="Logger\Entities\UnitEntity.cs" />
+    <Compile Include="Logger\Entities\VariableLog.cs" />
+    <Compile Include="Logger\Generics\IUnit.cs" />
+    <Compile Include="Logger\Generics\IVariable.cs" />
+    <Compile Include="Logger\Generics\Unit.cs" />
+    <Compile Include="Logger\Generics\Variable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
