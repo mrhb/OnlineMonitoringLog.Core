@@ -8,16 +8,10 @@ namespace OnlineMonitoringLog.UI_WPF.model
 
     public interface IVariable : ILoggableVariable<int>
     {
-        int UnitId { get; } //relate to Config
-        string name { get; set; }
-      
-        DateTime timeStamp { get; set; }
-        void RecievedData(int val, DateTime dt);
-      
+        new int UnitId { get; } //relate to Config
+        new string name { get; set; }
+        new string value { get; set; }
+        new DateTime timeStamp { get; set; }      
 
     }
-    //public interface IVariable : ILoggableVariable<int>, INotifyPropertyChanged
-    //{
-    //}
-
 }
