@@ -72,6 +72,7 @@
     <Compile Include="AlarmBase\Repository\centralConfig.cs" />
     <Compile Include="AlarmBase\Repository\CentralConfigViewModel.cs" />
     <Compile Include="AlarmBase\Repository\IAlarmRepository.cs" />
+    <Compile Include="Logger\Generics\LoggableVariable.cs" />
     <Compile Include="Logger\Repository\ILoggRepository.cs" />
     <Compile Include="Logger\Repository\LoggableObj.cs" />
     <Compile Include="Logger\Repository\LoggRepositry.cs" />

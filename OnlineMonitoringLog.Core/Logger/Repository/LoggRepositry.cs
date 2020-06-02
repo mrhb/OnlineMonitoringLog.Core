@@ -16,6 +16,11 @@ namespace OnlineMonitoringLog.UI_WPF.model
             _VarConfigContex = Contex;
         }
 
+        public async Task<int> logVlaueChanges(VariableLog vari)
+        {
+            throw new NotImplementedException();
+        }
+
         public RegisteredVarConfig ReadVarConfigInfo(RegisteredVarConfig Defaultconfig)
         {
             RegisteredVarConfig varConfig = _VarConfigContex.varConfig

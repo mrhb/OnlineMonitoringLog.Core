@@ -14,6 +14,7 @@ namespace OnlineMonitoringLog.UI_WPF.model
       
     RegisteredVarConfig ReadVarConfigInfo(RegisteredVarConfig Defaultconfig);
     RegisteredVarConfig ReadVarConfigInfo(IVariable vari);
+    Task<Int32> logVlaueChanges(VariableLog vari);
     }
 
 

@@ -46,11 +46,11 @@ namespace OnlineMonitoringLog.UI_WPF.model.Generics
         {
             foreach (var vari in _Variables)
             {
-                var OccConfig = repo.ReadVarConfigInfo(vari);
+                var varConfig = repo.ReadVarConfigInfo(vari);
                              
-                vari.SetConfig(OccConfig);
+                vari.SetConfig(varConfig);
 
-                vari.Initialization(OccConfig);
+                vari.Initialization(varConfig);
             }
             repo.SaveConfigs();
         }

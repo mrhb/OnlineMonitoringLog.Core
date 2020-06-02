@@ -11,10 +11,11 @@ using IwnTagType = System.Int32;
 
 namespace AlarmBase.DomainModel
 {
-    public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj
+    public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj 
+        where StateType : IComparable<StateType>
     {
 
-         protected IAlarmRepository _Repo;
+        protected IAlarmRepository _Repo;
         public event   PropertyChangedEventHandler PropertyChanged;
         IwnTagType _ObjId { get; set; }
         StateType _CurrentState { get; set; }
@@ -24,6 +25,7 @@ namespace AlarmBase.DomainModel
             set
             {
                 OnPropertyChanged("State",value,_CurrentState);
+
                 _CurrentState = value;             
             }
         }
@@ -94,11 +96,10 @@ namespace AlarmBase.DomainModel
          await  checkStateAsync(((StatePropertyChangedEventArgs)e)._newState, ((StatePropertyChangedEventArgs)e)._prestate);
         }
         public abstract List<Occurence<StateType>> ObjOccurences();
-        public virtual async Task<Int32> checkStateAsync(StateType newState, StateType preState)
+        protected async Task<Int32> checkStateAsync(StateType newState, StateType preState)
         {
-
             Int32 res = 0;
-
+            BeforCheckState(newState,preState);
             foreach (var occ in Occurences)
             {
                 res = 0;
@@ -131,6 +132,9 @@ namespace AlarmBase.DomainModel
             }
             return res;
         }
+
+        public abstract Task<Int32> BeforCheckState(StateType newState, StateType preState);
+        
         public void ResetConfig()
         {
             foreach (var occ in Occurences)

@@ -48,7 +48,8 @@ namespace AlarmBase.DomainModel.Entities
 
         public virtual RegisteredVarConfig RegisteredVarConfig { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
-       
+
+        
     }
 
 
