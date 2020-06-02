@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using AlarmBase.DomainModel.Entities;
-using OnlineMonitoringLog.Core.Logger.Generics;
 
 namespace OnlineMonitoringLog.UI_WPF.model
 {
