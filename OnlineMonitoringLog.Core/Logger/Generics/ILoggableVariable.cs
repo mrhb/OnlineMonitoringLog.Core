@@ -5,8 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace OnlineMonitoringLog.Core.Logger.Generics
+namespace OnlineMonitoringLog.UI_WPF.model
 {
     public interface ILoggableVariable<StateType> : INotifyPropertyChanged
     {
