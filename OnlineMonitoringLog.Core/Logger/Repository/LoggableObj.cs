@@ -12,15 +12,15 @@ using System.ComponentModel;
 namespace AlarmBase.DomainModel
 {
 
-// public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj
-public  class LoggableObj : AlarmableObj<int>
+    // public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj
+    public class LoggableObj : AlarmableObj<int>
     {
         public LoggableObj(int objId, ILoggRepository Repo) : base(objId, Repo)
         {
-           
+
         }
 
-        public override  Task<int> BeforCheckState(int newState, int preState)
+        public override Task<int> BeforCheckState(int newState, int preState)
         {
             return Task.FromResult<int>(0);
         }

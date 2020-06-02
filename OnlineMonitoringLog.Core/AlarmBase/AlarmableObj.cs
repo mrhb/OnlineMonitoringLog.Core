@@ -11,12 +11,12 @@ using IwnTagType = System.Int32;
 
 namespace AlarmBase.DomainModel
 {
-    public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj 
+    public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj
         where StateType : IComparable<StateType>
     {
 
         protected IAlarmRepository _Repo;
-        public event   PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         IwnTagType _ObjId { get; set; }
         StateType _CurrentState { get; set; }
         public StateType State
@@ -24,9 +24,9 @@ namespace AlarmBase.DomainModel
             get { return _CurrentState; }
             set
             {
-                OnPropertyChanged("State",value,_CurrentState);
+                OnPropertyChanged("State", value, _CurrentState);
 
-                _CurrentState = value;             
+                _CurrentState = value;
             }
         }
         protected void OnPropertyChanged(string name, StateType newState, StateType prestate)
@@ -34,7 +34,7 @@ namespace AlarmBase.DomainModel
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
             {
-                handler(this, new StatePropertyChangedEventArgs(name,newState,prestate));
+                handler(this, new StatePropertyChangedEventArgs(name, newState, prestate));
             }
         }
         public class StatePropertyChangedEventArgs : PropertyChangedEventArgs
@@ -44,23 +44,24 @@ namespace AlarmBase.DomainModel
             public StatePropertyChangedEventArgs(string propertyName, StateType newState, StateType prestate)
                 : base(propertyName)
             {
-                _newState= newState;
-                _prestate= prestate;
+                _newState = newState;
+                _prestate = prestate;
             }
         }
         public IwnTagType ObjId
         {
             get { return _ObjId; }
-           
+
         }
-        private List<Occurence<StateType>> _Occurences=new List<Occurence<StateType>>();
+        private List<Occurence<StateType>> _Occurences = new List<Occurence<StateType>>();
         public List<Occurence<StateType>> Occurences
         {
             get
             {
                 return _Occurences;
             }
-          private  set {
+            private set
+            {
                 _Occurences = value;
             }
         }
@@ -74,32 +75,32 @@ namespace AlarmBase.DomainModel
         }
         public AlarmableObj(IwnTagType objId, IAlarmRepository Repo)
         {
-            this.PropertyChanged +=   StateChangeEvent;
+            this.PropertyChanged += StateChangeEvent;
             _ObjId = objId;
             _Repo = Repo;
             foreach (var occ in ObjOccurences())
             {
-                occ.OccConfig.ObjName=this.ObjName;
+                occ.OccConfig.ObjName = this.ObjName;
                 if (!Occurences.Contains(occ))
                 {
                     Occurences.Add(occ);
-                  
+
                 }
                 else
                     throw new System.ArgumentException("this Occurence is duplicate");
             }
-         
+
             ResetConfig();
         }
         private async void StateChangeEvent(object sender, PropertyChangedEventArgs e)
         {
-         await  checkStateAsync(((StatePropertyChangedEventArgs)e)._newState, ((StatePropertyChangedEventArgs)e)._prestate);
+            await checkStateAsync(((StatePropertyChangedEventArgs)e)._newState, ((StatePropertyChangedEventArgs)e)._prestate);
         }
         public abstract List<Occurence<StateType>> ObjOccurences();
         protected async Task<Int32> checkStateAsync(StateType newState, StateType preState)
         {
             Int32 res = 0;
-            BeforCheckState(newState,preState);
+            BeforCheckState(newState, preState);
             foreach (var occ in Occurences)
             {
                 res = 0;
@@ -110,7 +111,7 @@ namespace AlarmBase.DomainModel
                     try
                     {
                         occ.tokenSource?.Cancel();
-                        occ.tokenSource = new System.Threading.CancellationTokenSource();                      
+                        occ.tokenSource = new System.Threading.CancellationTokenSource();
 
                         res = await _Repo.LogOccerence(occ);//LogOccerence(occ.OccConfig, occ.state, msg, delay, occ.tokenSource.Token);
                     }
@@ -134,13 +135,13 @@ namespace AlarmBase.DomainModel
         }
 
         public abstract Task<Int32> BeforCheckState(StateType newState, StateType preState);
-        
+
         public void ResetConfig()
         {
             foreach (var occ in Occurences)
             {
                 var OccConfig = _Repo.ReadConfigInfo(occ);
-             //   occ.Initialization(OccConfig, occCulture);
+                //   occ.Initialization(OccConfig, occCulture);
                 occ.SetConfig(OccConfig);
                 // var occCulture= _Repo.SetDefaultCultureInfo(OccConfig.OccConfigID, string.Join("|", occ.AvailableParams));
                 var occCulture = _Repo.ReadCultureInfo(occ);
@@ -150,5 +151,5 @@ namespace AlarmBase.DomainModel
             _Repo.SaveConfigs();
         }
     }
-  
+
 }
