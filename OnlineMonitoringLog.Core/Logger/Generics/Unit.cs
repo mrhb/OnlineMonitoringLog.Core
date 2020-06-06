@@ -13,7 +13,7 @@ namespace OnlineMonitoringLog.UI_WPF.model.Generics
 {
     public abstract class  Unit:IUnit, INotifyPropertyChanged
     {
-        static protected ILoggRepository repo = new LoggRepositry(new LoggingContext());
+        static protected ILoggRepository repo = new LoggRepositry(new LoggingContext("Data Source = (LocalDb)\\MSSqlLocalDB; Initial Catalog = TestDbForLogData; Integrated Security = True"));
         private ObservableCollection<IVariable> _Variables = new ObservableCollection<IVariable>();
         private string _LastUpdateTime;
         protected IPAddress _Ip;

@@ -49,7 +49,7 @@ namespace OnlineMonitoringLog.UI_WPF.model
                 VariableLog vari = new VariableLog()
                 {
                     FK_varaiableConfigID = _varConfig.VarConfigID,
-                    _imeStamp = _timeStamp,
+                    TimeStamp = _timeStamp,
                     Value = Convert.ToInt32(newState)
                 };
 

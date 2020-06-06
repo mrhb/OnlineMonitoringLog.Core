@@ -85,6 +85,11 @@
     <Compile Include="Logger\Generics\IVariable.cs" />
     <Compile Include="Logger\Generics\Unit.cs" />
     <Compile Include="Logger\Generics\Variable.cs" />
+    <Compile Include="Migrations\202006060507033_init.cs" />
+    <Compile Include="Migrations\202006060507033_init.Designer.cs">
+      <DependentUpon>202006060507033_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,7 +97,11 @@
     <None Include="AlarmBase\AlarmBaseClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202006060507033_init.resx">
+      <DependentUpon>202006060507033_init.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -24,8 +24,9 @@ namespace AlarmBase.DomainModel.Entities
 
         public int Value { get; set; }
 
+        [NotMapped]
         DateTime _timeStamp;
-        public DateTime _imeStamp
+        public DateTime TimeStamp
         {
             get { return _timeStamp; }
             set

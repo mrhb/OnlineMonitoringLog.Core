@@ -9,6 +9,7 @@ namespace OnlineMonitoringLog.UI_WPF.model
     public class LoggingContext : AlarmableContext
     {
         public LoggingContext() : base("name = Default") { }
+        public LoggingContext(string nameOrConnectionString) : base(nameOrConnectionString) { }
         public virtual DbSet<UnitEntity> Units { get; set; }
 
         /// <summary>
