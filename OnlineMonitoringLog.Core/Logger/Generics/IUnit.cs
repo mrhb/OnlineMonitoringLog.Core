@@ -7,7 +7,7 @@ namespace OnlineMonitoringLog.UI_WPF.model
 {
     public interface IUnit
     {
-        ObservableCollection<IVariable> Variables { get; set; }
+        ObservableCollection<ILoggableVariable<int>> Variables { get; set; }
         int ID { get; set; }
         IPAddress Ip { get; }
         string LastUpdateTime { get; }

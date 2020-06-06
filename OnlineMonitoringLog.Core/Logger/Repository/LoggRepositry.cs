@@ -21,6 +21,13 @@ namespace OnlineMonitoringLog.UI_WPF.model
             throw new NotImplementedException();
         }
 
+        public RegisteredVarConfig ReadVarConfigInfo(ILoggableVariable<int> vari)
+        {
+            RegisteredVarConfig varConfig=new RegisteredVarConfig();    
+            return varConfig;
+
+        }
+
         public RegisteredVarConfig ReadVarConfigInfo(RegisteredVarConfig Defaultconfig)
         {
             RegisteredVarConfig varConfig = _VarConfigContex.varConfig

@@ -1,4 +1,5 @@
 ﻿using AlarmBase.DomainModel.repository;
+using OnlineMonitoringLog.UI_WPF.model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,8 +14,10 @@ namespace OnlineMonitoringLog.UI_WPF.model.Generics
 {
     public abstract class  Unit:IUnit, INotifyPropertyChanged
     {
-        static protected ILoggRepository repo = new LoggRepositry(new LoggingContext("Data Source = (LocalDb)\\MSSqlLocalDB; Initial Catalog = TestDbForLogData; Integrated Security = True"));
-        private ObservableCollection<IVariable> _Variables = new ObservableCollection<IVariable>();
+        static protected ILoggRepository repo = new LoggRepositry(new LoggingContext());
+     //   static protected ILoggRepository repo = new LoggRepositry(new LoggingContext("Data Source = localhost\\MAHAK; Initial Catalog = TestDbForLogData; Integrated Security = True"));
+
+        private ObservableCollection<ILoggableVariable<int>> _Variables = new ObservableCollection<ILoggableVariable<int>>();
         private string _LastUpdateTime;
         protected IPAddress _Ip;
         public Unit(int unitId,IPAddress ip)
@@ -70,7 +73,7 @@ namespace OnlineMonitoringLog.UI_WPF.model.Generics
             }
         }
 
-        public ObservableCollection<IVariable> Variables
+        public ObservableCollection<ILoggableVariable<int>> Variables
         {
             get { return _Variables; }
             set

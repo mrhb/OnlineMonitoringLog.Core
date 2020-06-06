@@ -8,6 +8,7 @@ using AlarmBase.DomainModel;
 using OnlineMonitoringLog.UI_WPF.model;
 using AlarmBase.DomainModel.generics;
 using System.ComponentModel;
+using AlarmBase.DomainModel.Entities;
 
 namespace AlarmBase.DomainModel
 {
@@ -15,14 +16,19 @@ namespace AlarmBase.DomainModel
     // public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj
     public class LoggableObj : AlarmableObj<int>
     {
+        ILoggRepository _loggRepo;
         public LoggableObj(int objId, ILoggRepository Repo) : base(objId, Repo)
         {
+            _loggRepo = Repo;
 
         }
 
-        public override Task<int> BeforCheckState(int newState, int preState)
+        public override async Task<int> BeforCheckState(int newState, int preState)
         {
-            return Task.FromResult<int>(0);
+            var varlog = new VariableLog() {
+            };
+            return await _loggRepo.logVlaueChanges(varlog);
+           
         }
 
         public override List<Occurence<int>> ObjOccurences()
