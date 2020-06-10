@@ -13,7 +13,7 @@ namespace OnlineMonitoringLog.UI_WPF.model
         string LastUpdateTime { get; }
         string StringIp { get; set; }
         event PropertyChangedEventHandler PropertyChanged;
-        List<IVariable> UnitVariables();
+        List<ILoggableVariable<int>> UnitVariables();
         void Initialize();
         string ToString();
     }

@@ -14,7 +14,7 @@ namespace OnlineMonitoringLog.UI_WPF.model.Generics
 {
     public abstract class  Unit:IUnit, INotifyPropertyChanged
     {
-        static protected ILoggRepository repo = new LoggRepositry(new LoggingContext());
+        protected static  ILoggRepository repo = new LoggRepositry(new LoggingContext());
      //   static protected ILoggRepository repo = new LoggRepositry(new LoggingContext("Data Source = localhost\\MAHAK; Initial Catalog = TestDbForLogData; Integrated Security = True"));
 
         private ObservableCollection<ILoggableVariable<int>> _Variables = new ObservableCollection<ILoggableVariable<int>>();
@@ -50,12 +50,10 @@ namespace OnlineMonitoringLog.UI_WPF.model.Generics
             foreach (var vari in _Variables)
             {
                 var varConfig = repo.ReadVarConfigInfo(vari);
-                             
-                vari.SetConfig(varConfig);
-
+               
                 vari.Initialization(varConfig);
             }
-            repo.SaveConfigs();
+            repo.SaveVarConfigs();
         }
 
         private void valuChange(object sender, PropertyChangedEventArgs e)
@@ -114,6 +112,8 @@ namespace OnlineMonitoringLog.UI_WPF.model.Generics
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public abstract List<IVariable> UnitVariables();
+
+        public abstract List<ILoggableVariable<int>> UnitVariables();
+      
     }
 }

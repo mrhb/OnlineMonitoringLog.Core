@@ -10,7 +10,7 @@ namespace AlarmBase.DomainModel.Entities
     {
         public event PropertyChangedEventHandler ConfigChangeSaved;
         // Create the OnConfigChanged method to raise the event
-        internal void OnConfigChangeSaved()
+        public void OnConfigChangeSaved()
         {
             PropertyChangedEventHandler handler = ConfigChangeSaved;
             if (handler != null)

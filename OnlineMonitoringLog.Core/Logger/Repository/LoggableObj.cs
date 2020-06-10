@@ -20,20 +20,23 @@ namespace AlarmBase.DomainModel
         public LoggableObj(int objId, ILoggRepository Repo) : base(objId, Repo)
         {
             _loggRepo = Repo;
-
         }
 
-        public override async Task<int> BeforCheckState(int newState, int preState)
+        public override int BeforCheckState(int newState, int preState)
         {
             var varlog = new VariableLog() {
+                VariableLogId= Guid.NewGuid(),
+                FK_varaiableConfigID =ObjId,
+                Value =newState,
+                TimeStamp =DateTime.Now
             };
-            return await _loggRepo.logVlaueChanges(varlog);
-           
+            
+            return  _loggRepo.logVlaueChange(varlog);           
         }
 
-        public override List<Occurence<int>> ObjOccurences()
+        public override List<Occurence<int>> ObjOcucrences()
         {
-            return new List<Occurence<int>>() { new hi(ObjId) { setpoint = 50 } };
+            return new List<Occurence<int>>() { };// new hi(ObjId) { setpoint = 50 } };
         }
     }
     class hi : IntThreshold

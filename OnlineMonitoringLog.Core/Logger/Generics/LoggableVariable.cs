@@ -40,24 +40,18 @@ namespace OnlineMonitoringLog.UI_WPF.model
             timeStamp = dt;
         }
 
-        public override async Task<int> BeforCheckState(StateType newState, StateType preState)
+        public override int BeforCheckState(StateType newState, StateType preState)
         {
 
-            Int32 res = 0; 
-            if (!newState.Equals(preState))
+            var varlog = new VariableLog()
             {
-                VariableLog vari = new VariableLog()
-                {
-                    FK_varaiableConfigID = _varConfig.VarConfigID,
-                    TimeStamp = _timeStamp,
-                    Value = Convert.ToInt32(newState)
-                };
+                VariableLogId = Guid.NewGuid(),
+                FK_varaiableConfigID = _varConfig.VarConfigID,
+                Value =Convert.ToInt32( newState),
+                TimeStamp = DateTime.Now
+            };
 
-            res= await _repo.logVlaueChanges(vari);
-            
-            }
-     
-            return res;
+            return _repo.logVlaueChange(varlog);       
         }
 
         public string name
@@ -162,10 +156,10 @@ namespace OnlineMonitoringLog.UI_WPF.model
         {
             SetConfig((RegisteredVarConfig)sender);
         }
-        public bool SetConfig(RegisteredVarConfig _OccConfig)
+        public bool SetConfig(RegisteredVarConfig _varConfig)
         {
-            _varConfig = _OccConfig;
-            _varConfig.ConfigChangeSaved += ChangedConfigEvent;
+            this._varConfig = _varConfig;
+            this._varConfig.ConfigChangeSaved += ChangedConfigEvent;
             Boolean result = true;
             try
             {

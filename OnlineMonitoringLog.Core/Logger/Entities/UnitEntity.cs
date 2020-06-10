@@ -46,6 +46,7 @@ namespace OnlineMonitoringLog.UI_WPF.model
 
     public enum ProtocolType
     {
+        Test,
         CoAp,
         IEC104
     }

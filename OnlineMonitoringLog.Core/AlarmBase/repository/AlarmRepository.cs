@@ -2,6 +2,7 @@
 using AlarmBase.DomainModel.Entities;
 using AlarmBase.DomainModel.generics;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
@@ -18,7 +19,8 @@ namespace AlarmBase.DomainModel.repository
         int _delayTime = 500;
         public CancellationTokenSource saveTaskTokenSource = new CancellationTokenSource();
         public CentralConfigViewModel ConfigViewModel;
-        Task<int> saveTask;
+        // Task<int> saveTask;
+        Timer saveTimer;
         AlarmableContext _ConfigContex;
         AlarmableContext _LogContex;
         cultureType _cultureType = cultureType.en_US;// cultureType.Default;
@@ -31,7 +33,55 @@ namespace AlarmBase.DomainModel.repository
             _ConfigContex.occConfig.ToList();
             _LogContex.occConfig.ToList();
             ConfigViewModel = new CentralConfigViewModel(_ConfigContex, _cultureType);
+
+
+            saveTimer = new Timer(saveTimerCallback, null, 0, 2000);
         }
+
+        private void saveTimerCallback(object state)
+        {
+                     Int32 res = -1;
+           
+            if (true)
+            {
+                // res = await _LogContex.SaveChangesAsync();
+
+                var original = _LogContex.ChangeTracker.Entries()
+                        .ToList();
+                try
+                {
+                    res =  _LogContex.SaveChanges();
+                }
+                catch (Exception c)
+
+                {
+                    Console.Write("Error At:SaveOcclogChangesAsync:" + c.ToString() + "\n");
+                }
+
+                try
+                {
+                    foreach (var cng in original)
+                    {
+                        if ((cng.Entity.GetType() == typeof(OccurenceLog)))
+                        {
+                            OccurenceLog modifiedOccurenceLog = cng.Entity as OccurenceLog;
+                            if ((modifiedOccurenceLog.state == generics.AlarmState.clear || modifiedOccurenceLog.RegisteredOccConfig.IsAlarm == false)
+                                && modifiedOccurenceLog.Acknowledge == true)
+                                _LogContex.Entry(modifiedOccurenceLog).State = EntityState.Detached;
+                        }
+                    }
+                }
+                catch (Exception c)
+
+                {
+                    Console.Write("Error At: updating Entities:" + c.ToString() + "\n");
+                }
+
+
+            }
+
+        }
+
         public AlarmableContext ConfigContex
         {
             get
@@ -42,7 +92,6 @@ namespace AlarmBase.DomainModel.repository
             get
             { return _LogContex; }
         }
-        public object ChangeTracker { get; private set; }
         public RegisteredOccConfig ReadConfig(IwnTagType tag, string OccName)
         {
             RegisteredOccConfig Occconfig = _ConfigContex.occConfig
@@ -176,10 +225,10 @@ namespace AlarmBase.DomainModel.repository
 
             Int32 res = 0;
             await Task.Delay(occ.delayTime, occ.Token); //OnDelay and Off Delay waiting
-            if (saveTask == null ? false : (saveTask.Status==TaskStatus.Running))
-            {
-                saveTask?.Wait(); // wait to complete saving
-            }
+            //if (saveTask == null ? false : (saveTask.Status==TaskStatus.Running))
+            //{
+            //    saveTask?.Wait(); // wait to complete saving
+            //}
 
             if (!occ.Token.IsCancellationRequested)
             {
@@ -221,7 +270,7 @@ namespace AlarmBase.DomainModel.repository
                 saveTaskTokenSource = new System.Threading.CancellationTokenSource();
                 try
                 {
-                    saveTask = SaveLogs();
+                    //saveTask = SaveLogs();
                 }
                 catch (TaskCanceledException)
                 {
@@ -235,6 +284,8 @@ namespace AlarmBase.DomainModel.repository
         {
             log.ClearTime = DateTime.Now;
             log.state = state;
+
+          
         }
         private int AddNewLog(IOccurence occ)
         {
@@ -249,6 +300,8 @@ namespace AlarmBase.DomainModel.repository
                 AlarmMessage = occ.Message,
                 SetValuesAsJson=occ.SetValue
             };
+
+           
 
             try
             {
@@ -268,10 +321,10 @@ namespace AlarmBase.DomainModel.repository
 
             if (AckOccs.Count > 0)
             {
-                if (saveTask == null ? false : saveTask.IsCompleted)
-                {
-                    saveTask?.Wait();
-                }
+                //if (saveTask == null ? false : saveTask.IsCompleted)
+                //{
+                //    saveTask?.Wait();
+                //}
                 foreach (var lo in AckOccs)
                 {
                     lo.Acknowledge = true;
@@ -283,7 +336,7 @@ namespace AlarmBase.DomainModel.repository
                 saveTaskTokenSource = new System.Threading.CancellationTokenSource();
                 try
                 {
-                    saveTask = SaveLogs();
+                  //  saveTask = SaveLogs();
                 }
                 catch (TaskCanceledException)
                 {
@@ -336,6 +389,7 @@ namespace AlarmBase.DomainModel.repository
 
             return res;
         }
+     
         public void SaveConfigs()
         {
             var original = _ConfigContex.ChangeTracker.Entries()

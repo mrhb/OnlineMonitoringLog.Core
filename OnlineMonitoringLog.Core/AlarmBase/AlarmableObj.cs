@@ -11,12 +11,29 @@ using IwnTagType = System.Int32;
 
 namespace AlarmBase.DomainModel
 {
+
+
+  
     public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj
         where StateType : IComparable<StateType>
     {
+        public class StateChangeEvent : EventArgs
+    {
+        public StateType _newState;
+        public StateType _prestate;
+        public StateChangeEvent(StateType newState, StateType prestate)
+            {
+            _newState = newState;
+            _prestate = prestate;
+        }
 
+    }
+
+        public delegate void StatusUpdateHandler(StateChangeEvent e);
+  
         protected IAlarmRepository _Repo;
         public event PropertyChangedEventHandler PropertyChanged;
+        private event StatusUpdateHandler OnstateChange;
         IwnTagType _ObjId { get; set; }
         StateType _CurrentState { get; set; }
         public StateType State
@@ -24,7 +41,9 @@ namespace AlarmBase.DomainModel
             get { return _CurrentState; }
             set
             {
-                OnPropertyChanged("State", value, _CurrentState);
+              //  OnPropertyChanged("State", value, _CurrentState);
+                
+                OnstateChange(new StateChangeEvent(value, _CurrentState));
 
                 _CurrentState = value;
             }
@@ -75,10 +94,11 @@ namespace AlarmBase.DomainModel
         }
         public AlarmableObj(IwnTagType objId, IAlarmRepository Repo)
         {
-            this.PropertyChanged += StateChangeEvent;
+         //   this.PropertyChanged += StateChangeEventt;
+            OnstateChange += StateChangedEvent;
             _ObjId = objId;
             _Repo = Repo;
-            foreach (var occ in ObjOccurences())
+            foreach (var occ in ObjOcucrences())
             {
                 occ.OccConfig.ObjName = this.ObjName;
                 if (!Occurences.Contains(occ))
@@ -92,49 +112,92 @@ namespace AlarmBase.DomainModel
 
             ResetConfig();
         }
-        private async void StateChangeEvent(object sender, PropertyChangedEventArgs e)
+
+        private  void StateChangedEvent(StateChangeEvent e)
+        {
+            checkState(((StateChangeEvent)e)._newState, ((StateChangeEvent)e)._prestate);
+        }
+
+        private async void StateChangeEventt(object sender, PropertyChangedEventArgs e)
         {
             await checkStateAsync(((StatePropertyChangedEventArgs)e)._newState, ((StatePropertyChangedEventArgs)e)._prestate);
         }
-        public abstract List<Occurence<StateType>> ObjOccurences();
+        public abstract List<Occurence<StateType>> ObjOcucrences();
+        protected void checkState(StateType newState, StateType preState)
+        {
+            Int32 res = 0;
+             BeforCheckState(newState, preState);
+            //foreach (var occ in Occurences)
+            //{
+            //    res = 0;
+            //    var hasChanged = occ.Checker(newState, preState);
+            //    if (hasChanged)
+            //    {
+            //        var tt = System.Environment.TickCount;
+            //        try
+            //        {
+            //            occ.tokenSource?.Cancel();
+            //            occ.tokenSource = new System.Threading.CancellationTokenSource();
+
+            //            res = await _Repo.LogOccerence(occ);//LogOccerence(occ.OccConfig, occ.state, msg, delay, occ.tokenSource.Token);
+            //        }
+            //        catch (TaskCanceledException)
+            //        {
+            //            Console.WriteLine(occ.ConfigId.ToString() + "  checkStateAsync: task Canceled");
+            //            res = -1;
+            //        }
+            //        catch (Exception c)
+            //        {
+            //            Console.WriteLine("Error at checkStateAsync:   " + c.ToString());
+            //            res = -1;
+            //        }
+            //        //tt = System.Environment.TickCount - tt;
+            //        //Console.WriteLine(occ.ConfigId.ToString() + "  checkStateAsync Done.  tick: "+ tt.ToString()+ "\n");
+            //    }
+            //    else
+            //        Console.WriteLine(occ.ConfigId.ToString() + "  No Action at checkStateAsync:   ");
+            //}
+           
+        }
         protected async Task<Int32> checkStateAsync(StateType newState, StateType preState)
         {
             Int32 res = 0;
             BeforCheckState(newState, preState);
-            foreach (var occ in Occurences)
-            {
-                res = 0;
-                var hasChanged = occ.Checker(newState, preState);
-                if (hasChanged)
-                {
-                    var tt = System.Environment.TickCount;
-                    try
-                    {
-                        occ.tokenSource?.Cancel();
-                        occ.tokenSource = new System.Threading.CancellationTokenSource();
+            //foreach (var occ in Occurences)
+            //{
+            //    res = 0;
+            //    var hasChanged = occ.Checker(newState, preState);
+            //    if (hasChanged)
+            //    {
+            //        var tt = System.Environment.TickCount;
+            //        try
+            //        {
+            //            occ.tokenSource?.Cancel();
+            //            occ.tokenSource = new System.Threading.CancellationTokenSource();
 
-                        res = await _Repo.LogOccerence(occ);//LogOccerence(occ.OccConfig, occ.state, msg, delay, occ.tokenSource.Token);
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        Console.WriteLine(occ.ConfigId.ToString() + "  checkStateAsync: task Canceled");
-                        res = -1;
-                    }
-                    catch (Exception c)
-                    {
-                        Console.WriteLine("Error at checkStateAsync:   " + c.ToString());
-                        res = -1;
-                    }
-                    //tt = System.Environment.TickCount - tt;
-                    //Console.WriteLine(occ.ConfigId.ToString() + "  checkStateAsync Done.  tick: "+ tt.ToString()+ "\n");
-                }
-                else
-                    Console.WriteLine(occ.ConfigId.ToString() + "  No Action at checkStateAsync:   ");
-            }
+            //            res = await _Repo.LogOccerence(occ);//LogOccerence(occ.OccConfig, occ.state, msg, delay, occ.tokenSource.Token);
+            //        }
+            //        catch (TaskCanceledException)
+            //        {
+            //            Console.WriteLine(occ.ConfigId.ToString() + "  checkStateAsync: task Canceled");
+            //            res = -1;
+            //        }
+            //        catch (Exception c)
+            //        {
+            //            Console.WriteLine("Error at checkStateAsync:   " + c.ToString());
+            //            res = -1;
+            //        }
+            //        //tt = System.Environment.TickCount - tt;
+            //        //Console.WriteLine(occ.ConfigId.ToString() + "  checkStateAsync Done.  tick: "+ tt.ToString()+ "\n");
+            //    }
+            //    else
+            //        Console.WriteLine(occ.ConfigId.ToString() + "  No Action at checkStateAsync:   ");
+            //}
             return res;
         }
 
-        public abstract Task<Int32> BeforCheckState(StateType newState, StateType preState);
+        public abstract Int32 BeforCheckState(StateType newState, StateType preState);
+
 
         public void ResetConfig()
         {
