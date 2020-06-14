@@ -1,17 +1,16 @@
-﻿using AlarmBase.DomainModel.repository;
-using OnlineMonitoringLog.UI_WPF.model;
+﻿using OnlineMonitoringLog.Core.DataRepository;
+using OnlineMonitoringLog.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OnlineMonitoringLog.UI_WPF.model.Generics
+
+namespace OnlineMonitoringLog.Core
 {
+
     public abstract class  Unit:IUnit, INotifyPropertyChanged
     {
         protected static  ILoggRepository repo = new LoggRepositry(new LoggingContext());
@@ -114,6 +113,7 @@ namespace OnlineMonitoringLog.UI_WPF.model.Generics
 
 
         public abstract List<ILoggableVariable<int>> UnitVariables();
-      
+
+
     }
 }

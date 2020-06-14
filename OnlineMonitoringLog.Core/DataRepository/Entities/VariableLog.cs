@@ -10,9 +10,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using IwnTagType = System.Int32;
-namespace AlarmBase.DomainModel.Entities
+namespace OnlineMonitoringLog.Core.DataRepository.Entities
 {
-
     public class VariableLog : INotifyPropertyChanged
     {
         

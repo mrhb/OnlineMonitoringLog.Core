@@ -1,11 +1,12 @@
 ﻿
 using AlarmBase.DomainModel.Entities;
-using System.Collections.Generic;
+using OnlineMonitoringLog.Core.DataRepository.Entities;
 using System.Data.Entity;
 
 
-namespace OnlineMonitoringLog.UI_WPF.model
+namespace OnlineMonitoringLog.Core
 {
+
     public class LoggingContext : AlarmableContext
     {
         public LoggingContext() : base("name = Default") { }

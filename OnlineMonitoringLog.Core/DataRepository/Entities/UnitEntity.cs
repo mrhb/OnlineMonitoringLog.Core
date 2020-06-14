@@ -6,9 +6,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineMonitoringLog.UI_WPF.model
+namespace OnlineMonitoringLog.Core.DataRepository.Entities
 {
- 
     public class UnitEntity 
     {
 

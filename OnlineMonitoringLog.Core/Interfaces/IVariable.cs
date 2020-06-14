@@ -2,9 +2,8 @@
 using System.ComponentModel;
 using AlarmBase.DomainModel.Entities;
 
-namespace OnlineMonitoringLog.UI_WPF.model
+namespace OnlineMonitoringLog.Core.Interfaces
 {
-
     public interface IVariable : ILoggableVariable<int>
     {
         new int UnitId { get; } //relate to Config

@@ -1,11 +1,8 @@
-﻿using AlarmBase.DomainModel.Entities;
+﻿using OnlineMonitoringLog.Core.DataRepository.Entities;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-namespace OnlineMonitoringLog.UI_WPF.model
+
+namespace OnlineMonitoringLog.Core.Interfaces
 {
     public interface ILoggableVariable<StateType> : INotifyPropertyChanged
     {

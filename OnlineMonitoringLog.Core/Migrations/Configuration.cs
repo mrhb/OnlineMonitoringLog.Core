@@ -1,18 +1,19 @@
 namespace OnlineMonitoringLog.Core.Migrations
 {
+    using DataRepository.Entities;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<OnlineMonitoringLog.UI_WPF.model.LoggingContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<OnlineMonitoringLog.Core.LoggingContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(OnlineMonitoringLog.UI_WPF.model.LoggingContext context)
+        protected override void Seed(OnlineMonitoringLog.Core.LoggingContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -21,8 +22,8 @@ namespace OnlineMonitoringLog.Core.Migrations
             //
             context.Units.AddOrUpdate(
               p => p.StringIp,
-              new UI_WPF.model.UnitEntity {Type= UI_WPF.model.ProtocolType.IEC104, StringIp = "192.168.0.19" },
-              new UI_WPF.model.UnitEntity { Type =UI_WPF.model.ProtocolType.CoAp, StringIp = "127.0.0.1" }
+              new UnitEntity {Type= ProtocolType.IEC104, StringIp = "192.168.0.19" },
+              new UnitEntity { Type =ProtocolType.CoAp, StringIp = "127.0.0.1" }
             );
 
         }

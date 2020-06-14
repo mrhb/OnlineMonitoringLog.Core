@@ -72,19 +72,18 @@
     <Compile Include="AlarmBase\Repository\centralConfig.cs" />
     <Compile Include="AlarmBase\Repository\CentralConfigViewModel.cs" />
     <Compile Include="AlarmBase\Repository\IAlarmRepository.cs" />
-    <Compile Include="Logger\Generics\ILoggableVariable.cs" />
-    <Compile Include="Logger\Generics\LoggableVariable.cs" />
-    <Compile Include="Logger\Repository\ILoggRepository.cs" />
-    <Compile Include="Logger\Repository\LoggableObj.cs" />
-    <Compile Include="Logger\Repository\LoggRepositry.cs" />
-    <Compile Include="Logger\Entities\MonitoringDbContext.cs" />
-    <Compile Include="Logger\Entities\RegisteredVaraiableConfig.cs" />
-    <Compile Include="Logger\Entities\UnitEntity.cs" />
-    <Compile Include="Logger\Entities\VariableLog.cs" />
-    <Compile Include="Logger\Generics\IUnit.cs" />
-    <Compile Include="Logger\Generics\IVariable.cs" />
-    <Compile Include="Logger\Generics\Unit.cs" />
-    <Compile Include="Logger\Generics\Variable.cs" />
+    <Compile Include="Interfaces\ILoggableVariable.cs" />
+    <Compile Include="Core\LoggableVariable.cs" />
+    <Compile Include="Interfaces\ILoggRepository.cs" />
+    <Compile Include="DataRepository\LoggableObj.cs" />
+    <Compile Include="DataRepository\LoggRepositry.cs" />
+    <Compile Include="Core\LoggingContext.cs" />
+    <Compile Include="DataRepository\Entities\RegisteredVaraiableConfig.cs" />
+    <Compile Include="DataRepository\Entities\UnitEntity.cs" />
+    <Compile Include="DataRepository\Entities\VariableLog.cs" />
+    <Compile Include="Interfaces\IUnit.cs" />
+    <Compile Include="Interfaces\IVariable.cs" />
+    <Compile Include="Core\Unit.cs" />
     <Compile Include="Migrations\202006060507033_init.cs" />
     <Compile Include="Migrations\202006060507033_init.Designer.cs">
       <DependentUpon>202006060507033_init.cs</DependentUpon>
@@ -101,6 +100,9 @@
     <EmbeddedResource Include="Migrations\202006060507033_init.resx">
       <DependentUpon>202006060507033_init.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AlarmBase\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using OnlineMonitoringLog.Core;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net;
 
-namespace OnlineMonitoringLog.UI_WPF.model
+namespace OnlineMonitoringLog.Core.Interfaces
 {
     public interface IUnit
     {

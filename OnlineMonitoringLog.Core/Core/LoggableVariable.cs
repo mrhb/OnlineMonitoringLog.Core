@@ -3,6 +3,8 @@
 
 using AlarmBase.DomainModel;
 using AlarmBase.DomainModel.Entities;
+using OnlineMonitoringLog.Core.DataRepository.Entities;
+using OnlineMonitoringLog.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,29 +12,49 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
-namespace OnlineMonitoringLog.UI_WPF.model
+namespace OnlineMonitoringLog.Core
 {
-    public abstract class Variable :  IVariable
+
+    public abstract class LoggableVariable<StateType> : AlarmableObj<StateType> , ILoggableVariable<StateType>
+           where StateType : IComparable<StateType>
     {
-        protected LoggableObj _loggableObj;
-        protected ILoggRepository _repo;
+     
         RegisteredVarConfig _varConfig;
         int _unitId;
         string _value = "Not assigned";
         DateTime _timeStamp = new DateTime();
         string _resource = "Not assigned";
-        public Variable(int unitId,string resourceName, ILoggRepository repo) 
+        ILoggRepository _repo;
+
+
+        public LoggableVariable(int unitId, string resourceName, ILoggRepository Repo) : base(unitId, Repo)
         {
             name = resourceName;
              _unitId= unitId;
-            _repo = repo;
+            _repo = Repo;
         }
-       public void RecievedData(int val, DateTime dt)
+
+        public void RecievedData(StateType val, DateTime dt)
         {
-            _loggableObj.State = val;
+            State = val;
             value = val.ToString();
             timeStamp = dt;
+        }
+
+        public override int BeforCheckState(StateType newState, StateType preState)
+        {
+
+            var varlog = new VariableLog()
+            {
+                VariableLogId = Guid.NewGuid(),
+                FK_varaiableConfigID = _varConfig.VarConfigID,
+                Value =Convert.ToInt32( newState),
+                TimeStamp = DateTime.Now
+            };
+
+            return _repo.logVlaueChange(varlog);       
         }
 
         public string name
@@ -137,40 +159,44 @@ namespace OnlineMonitoringLog.UI_WPF.model
         {
             SetConfig((RegisteredVarConfig)sender);
         }
-        public bool SetConfig(RegisteredVarConfig _OccConfig)
+   
+
+        public bool Initialization(RegisteredVarConfig varConfig)
         {
-            _varConfig = _OccConfig;
-            _varConfig.ConfigChangeSaved += ChangedConfigEvent;
+           return SetConfig(varConfig);
+        }
+
+        public bool SetConfig(RegisteredVarConfig varConfig)
+        {
+            this._varConfig = varConfig;
+
+            this._varConfig.ConfigChangeSaved += ChangedConfigEvent;
             Boolean result = true;
             try
             {
-        //        Type t = Type.GetType(_OccConfig.SetPointType);
-        //var sfsdf = Activator.CreateInstance(t);
+                //        Type t = Type.GetType(_OccConfig.SetPointType);
+                //var sfsdf = Activator.CreateInstance(t);
 
-        //        if (t == typeof(int))
-        //        {
-        //            setpointObj = Convert.ToInt32(_OccConfig.SerializedSetPoint);
-        //        }
-        //        else if (t == typeof(bool))
-        //        {
-        //            setpointObj = Convert.ToBoolean(_OccConfig.SerializedSetPoint);
-        //        }
+                //        if (t == typeof(int))
+                //        {
+                //            setpointObj = Convert.ToInt32(_OccConfig.SerializedSetPoint);
+                //        }
+                //        else if (t == typeof(bool))
+                //        {
+                //            setpointObj = Convert.ToBoolean(_OccConfig.SerializedSetPoint);
+                //        }
 
-        //        else
-        //            result = false;
+                //        else
+                //            result = false;
             }
             catch (Exception c)
             {
                 result = false;
             }
             return result;
-            }
-
-        public Boolean Initialization(RegisteredVarConfig varConfig)
-        {
-            _loggableObj = new LoggableObj(varConfig.VarConfigID, _repo);
-            return SetConfig(varConfig);
         }
+
+
     }
 
 }

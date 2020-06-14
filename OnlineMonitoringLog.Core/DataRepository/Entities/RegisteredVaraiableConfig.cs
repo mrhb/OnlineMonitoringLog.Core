@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
-namespace AlarmBase.DomainModel.Entities
+namespace OnlineMonitoringLog.Core.DataRepository.Entities
 {
     public class RegisteredVarConfig : INotifyPropertyChanged
     {

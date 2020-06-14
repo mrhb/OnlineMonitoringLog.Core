@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AlarmBase.DomainModel.repository;
 using AlarmBase.DomainModel;
-using OnlineMonitoringLog.UI_WPF.model;
 using AlarmBase.DomainModel.generics;
-using System.ComponentModel;
-using AlarmBase.DomainModel.Entities;
 
-namespace AlarmBase.DomainModel
+using OnlineMonitoringLog.Core.Interfaces;
+using OnlineMonitoringLog.Core.DataRepository.Entities;
+
+namespace OnlineMonitoringLog.Core.DataRepository
 {
 
     // public abstract class AlarmableObj<StateType> : INotifyPropertyChanged, IAlarmableObj

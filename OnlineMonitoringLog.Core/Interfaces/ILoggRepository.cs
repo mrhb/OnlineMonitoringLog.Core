@@ -1,14 +1,11 @@
-﻿using AlarmBase.DomainModel.Entities;
-using AlarmBase.DomainModel.repository;
+﻿using AlarmBase.DomainModel.repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineMonitoringLog.UI_WPF.model
-{
+using OnlineMonitoringLog.Core.DataRepository.Entities;
 
+namespace OnlineMonitoringLog.Core.Interfaces
+{
     public interface ILoggRepository : IAlarmRepository
     {
       
