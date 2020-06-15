@@ -26,15 +26,17 @@ namespace OnlineMonitoringLog.Core.DataRepository
             _LogContex = (LoggingContext)Activator.CreateInstance(_VarConfigContex.GetType());
 
             _VarConfigContex.varConfig.ToList();
-            if (t == null)
-            {
-                t = new Thread(() => ProcessUa());
-                t.Name = "simplyLogRepo";
-                t.IsBackground = true;
-                t.Start();
 
-                Console.WriteLine($"theared {t.Name} with id={t.ManagedThreadId} is started");
-            }
+
+            //if (t == null)
+            //{
+            //    t = new Thread(() => ProcessUa());
+            //    t.Name = "simplyLogRepo";
+            //    t.IsBackground = true;
+            //    t.Start();
+
+            //    Console.WriteLine($"theared {t.Name} with id={t.ManagedThreadId} is started");
+            //}
         }
 
         ~LoggRepositry()
@@ -136,7 +138,7 @@ namespace OnlineMonitoringLog.Core.DataRepository
             throw new NotImplementedException();
         }
 
-        public RegisteredVarConfig ReadVarConfigInfo(ILoggableVariable<int> vari)
+        public RegisteredVarConfig ReadVarConfigInfo(Interfaces.ILoggableVariable<int> vari)
         {
             RegisteredVarConfig varConfig = _VarConfigContex.varConfig
                 .Where(p => p.Fk_UnitEntityId == vari.UnitId && p.resourceName == vari.name)
