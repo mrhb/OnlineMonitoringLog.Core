@@ -10,7 +10,7 @@ namespace OnlineMonitoringLog.Core.Interfaces
     public interface IUnit
     {
         ObservableCollection<ILoggableVariable<int>> Variables { get; set; }
-        int ID { get; set; }
+        int UnitId { get; set; }
         IPAddress Ip { get; }
         string LastUpdateTime { get; }
         string StringIp { get; set; }

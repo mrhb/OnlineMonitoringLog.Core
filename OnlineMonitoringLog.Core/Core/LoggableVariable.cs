@@ -36,11 +36,14 @@ namespace OnlineMonitoringLog.Core
             _repo = Repo;
         }
 
-        public void RecievedData(StateType val, DateTime dt)
+        public Boolean RecievedData(StateType val, DateTime dt)
         {
+            Boolean hasChanged=true;
+            if(State.Equals(val)) hasChanged = false;
             State = val;
             value = val.ToString();
             timeStamp = dt;
+            return hasChanged;
         }
 
         public override int BeforCheckState(StateType newState, StateType preState)

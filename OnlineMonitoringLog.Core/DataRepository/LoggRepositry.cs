@@ -161,6 +161,15 @@ namespace OnlineMonitoringLog.Core.DataRepository
         }
 
 
+        public UnitEntity ReadUnitEntity(int ID)
+        {
+            UnitEntity unitEntity = _VarConfigContex.UnitEntity
+                .Where(p => p.ID ==ID)
+                .Select(a => a).FirstOrDefault();
+            return unitEntity;
+
+        }
+
         public RegisteredVarConfig ReadVarConfigInfo(RegisteredVarConfig Defaultconfig)
         {
             RegisteredVarConfig varConfig = _VarConfigContex.varConfig

@@ -72,6 +72,12 @@
     <Compile Include="AlarmBase\Repository\centralConfig.cs" />
     <Compile Include="AlarmBase\Repository\CentralConfigViewModel.cs" />
     <Compile Include="AlarmBase\Repository\IAlarmRepository.cs" />
+    <Compile Include="DataRepository\Entities\Area.cs" />
+    <Compile Include="DataRepository\Entities\Distribution.cs" />
+    <Compile Include="DataRepository\Entities\Province.cs" />
+    <Compile Include="DataRepository\Entities\Regional.cs" />
+    <Compile Include="DataRepository\Entities\Station.cs" />
+    <Compile Include="DataRepository\Entities\UnitEntity.cs" />
     <Compile Include="Interfaces\ILoggableVariable.cs" />
     <Compile Include="Core\LoggableVariable.cs" />
     <Compile Include="Interfaces\ILoggRepository.cs" />
@@ -79,7 +85,6 @@
     <Compile Include="DataRepository\LoggRepositry.cs" />
     <Compile Include="Core\LoggingContext.cs" />
     <Compile Include="DataRepository\Entities\RegisteredVaraiableConfig.cs" />
-    <Compile Include="DataRepository\Entities\UnitEntity.cs" />
     <Compile Include="DataRepository\Entities\VariableLog.cs" />
     <Compile Include="Interfaces\IUnit.cs" />
     <Compile Include="Interfaces\IVariable.cs" />
@@ -87,6 +92,10 @@
     <Compile Include="Migrations\202006060507033_init.cs" />
     <Compile Include="Migrations\202006060507033_init.Designer.cs">
       <DependentUpon>202006060507033_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007080431208_AllHierarchies.cs" />
+    <Compile Include="Migrations\202007080431208_AllHierarchies.Designer.cs">
+      <DependentUpon>202007080431208_AllHierarchies.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,6 +108,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202006060507033_init.resx">
       <DependentUpon>202006060507033_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007080431208_AllHierarchies.resx">
+      <DependentUpon>202007080431208_AllHierarchies.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ namespace OnlineMonitoringLog.Core.Interfaces
         string name { get; set; }
         string value { get; set; }
         DateTime timeStamp { get; set; }
-        void RecievedData(StateType val, DateTime dt);
+        Boolean RecievedData(StateType val, DateTime dt);
         string ToString();
         bool SetConfig(RegisteredVarConfig varConfig);
         bool Initialization(RegisteredVarConfig varConfig);

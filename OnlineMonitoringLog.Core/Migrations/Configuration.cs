@@ -20,11 +20,11 @@ namespace OnlineMonitoringLog.Core.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
-            context.Units.AddOrUpdate(
-              p => p.StringIp,
-              new UnitEntity {Type= ProtocolType.IEC104, StringIp = "192.168.0.19" },
-              new UnitEntity { Type =ProtocolType.CoAp, StringIp = "127.0.0.1" }
-            );
+            //context.UnitEntity.AddOrUpdate(
+            //  p => p.StringIp,
+            //  new UnitEntity { Type = ProtocolType.ModbusTcp, StringIp = "192.168.0.19" },
+            //  new UnitEntity { Type = ProtocolType.CoAP, StringIp = "127.0.0.1" }
+            //);
 
         }
     }

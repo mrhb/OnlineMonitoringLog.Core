@@ -1,18 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace OnlineMonitoringLog.Core.DataRepository.Entities
 {
-    public class UnitEntity 
-    {
+    using OnlineMonitoringLog.Core.DataRepository.Entities;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+    using System.Net;
 
-        public UnitEntity() { }
-        public int ID { get; set; }
+    [Table("hier.Unit")]
+    public  class UnitEntity
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UnitEntity()
+        {
+        }
+
+        public int UnitId { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        public int StationID { get; set; }
+
+        public int Capacity { get; set; }
+
+        public virtual Station Station { get; set; }
+       public int ID { get; set; }
 
         public ProtocolType Type { get; set; }
 
@@ -33,10 +48,12 @@ namespace OnlineMonitoringLog.Core.DataRepository.Entities
         {
             get
             {
-                return _Ip.ToString();
+
+                return _Ip?.ToString();
             }
             set
             {
+                if(value!=null)
                 Ip = IPAddress.Parse(value);
             }
         }
@@ -45,8 +62,8 @@ namespace OnlineMonitoringLog.Core.DataRepository.Entities
 
     public enum ProtocolType
     {
-        Test,
-        CoAp,
-        IEC104
+        CoAP,
+        IEC104,
+        ModbusTcp
     }
 }

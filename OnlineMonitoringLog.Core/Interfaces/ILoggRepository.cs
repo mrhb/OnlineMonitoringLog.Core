@@ -15,6 +15,8 @@ namespace OnlineMonitoringLog.Core.Interfaces
         int logVlaueChange(VariableLog varlog);
 
         void SaveVarConfigs();
+
+        UnitEntity ReadUnitEntity(int ID);
     }
 
 

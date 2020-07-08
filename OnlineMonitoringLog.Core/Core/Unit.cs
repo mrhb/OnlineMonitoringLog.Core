@@ -17,12 +17,13 @@ namespace OnlineMonitoringLog.Core
      //   static protected ILoggRepository repo = new LoggRepositry(new LoggingContext("Data Source = localhost\\MAHAK; Initial Catalog = TestDbForLogData; Integrated Security = True"));
 
         private ObservableCollection<ILoggableVariable<int>> _Variables = new ObservableCollection<ILoggableVariable<int>>();
+        
         private string _LastUpdateTime;
         protected IPAddress _Ip;
-        public Unit(int unitId,IPAddress ip)
+        public Unit(int id,IPAddress ip)
         {
             Ip = ip;
-            ID = unitId;
+            ID = id;
             Initialize();
         }
         public void Initialize()
@@ -52,6 +53,16 @@ namespace OnlineMonitoringLog.Core
                
                 vari.Initialization(varConfig);
             }
+
+
+            var unitEntity = repo.ReadUnitEntity(ID);
+            UnitId = unitEntity.UnitId;
+            UnitIdTag = UnitId.ToString();
+            StationIDTag = unitEntity.StationID.ToString();
+            AreaIDTag = unitEntity.Station.AreaID.ToString();
+            DistributionIDTag = unitEntity.Station.Area.DistributionID.ToString();
+            RegionalIdTag = unitEntity.Station.Area.Distribution.RegionalID.ToString();
+
             repo.SaveVarConfigs();
         }
 
@@ -80,6 +91,15 @@ namespace OnlineMonitoringLog.Core
             }
         }
         public int ID { get; set; }
+        public int UnitId { get; set; }
+
+
+
+        public string UnitIdTag { get; set; }
+        public string StationIDTag { get; set; }
+        public string AreaIDTag { get; set; }
+        public string DistributionIDTag { get; set; }
+        public string RegionalIdTag { get; set; }
 
         public IPAddress Ip
         {
