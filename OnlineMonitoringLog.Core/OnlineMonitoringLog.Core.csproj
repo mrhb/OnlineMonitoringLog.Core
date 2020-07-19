@@ -103,6 +103,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="AlarmBase\AlarmBaseClassDiagram.cd" />
+    <None Include="DataRepository\DataBaseClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
